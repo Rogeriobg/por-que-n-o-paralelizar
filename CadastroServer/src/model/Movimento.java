@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package model;
 
 import java.io.Serializable;
@@ -9,6 +5,8 @@ import java.math.BigDecimal;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -25,32 +23,41 @@ import javax.persistence.Table;
 @NamedQueries({
     @NamedQuery(name = "Movimento.findAll", query = "SELECT m FROM Movimento m"),
     @NamedQuery(name = "Movimento.findByMovimentoID", query = "SELECT m FROM Movimento m WHERE m.movimentoID = :movimentoID"),
-    @NamedQuery(name = "Movimento.findByUsuarioID", query = "SELECT m FROM Movimento m WHERE m.usuarioID = :usuarioID"),
+    @NamedQuery(name = "Movimento.findByUsuarioID", query = "SELECT m FROM Movimento m WHERE m.usuario.usuarioID = :usuarioID"),
     @NamedQuery(name = "Movimento.findByTipo", query = "SELECT m FROM Movimento m WHERE m.tipo = :tipo"),
     @NamedQuery(name = "Movimento.findByQuantidade", query = "SELECT m FROM Movimento m WHERE m.quantidade = :quantidade"),
-    @NamedQuery(name = "Movimento.findByPrecoUnitario", query = "SELECT m FROM Movimento m WHERE m.precoUnitario = :precoUnitario")})
+    @NamedQuery(name = "Movimento.findByPrecoUnitario", query = "SELECT m FROM Movimento m WHERE m.precoUnitario = :precoUnitario")
+})
 public class Movimento implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "MovimentoID")
     private Integer movimentoID;
-    @Column(name = "UsuarioID")
-    private Integer usuarioID;
+
     @Column(name = "Tipo")
     private Character tipo;
+
     @Column(name = "Quantidade")
     private Integer quantidade;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+
     @Column(name = "PrecoUnitario")
     private BigDecimal precoUnitario;
+
     @JoinColumn(name = "PessoaID", referencedColumnName = "PessoaID")
     @ManyToOne
     private Pessoa pessoaID;
+
     @JoinColumn(name = "ProdutoID", referencedColumnName = "ProdutoID")
     @ManyToOne
     private Produto produtoID;
+
+    @JoinColumn(name = "UsuarioID", referencedColumnName = "UsuarioID")
+    @ManyToOne
+    private Usuario usuario;
 
     public Movimento() {
     }
@@ -65,14 +72,6 @@ public class Movimento implements Serializable {
 
     public void setMovimentoID(Integer movimentoID) {
         this.movimentoID = movimentoID;
-    }
-
-    public Integer getUsuarioID() {
-        return usuarioID;
-    }
-
-    public void setUsuarioID(Integer usuarioID) {
-        this.usuarioID = usuarioID;
     }
 
     public Character getTipo() {
@@ -115,6 +114,14 @@ public class Movimento implements Serializable {
         this.produtoID = produtoID;
     }
 
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -124,20 +131,15 @@ public class Movimento implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof Movimento)) {
             return false;
         }
         Movimento other = (Movimento) object;
-        if ((this.movimentoID == null && other.movimentoID != null) || (this.movimentoID != null && !this.movimentoID.equals(other.movimentoID))) {
-            return false;
-        }
-        return true;
+        return (this.movimentoID != null || other.movimentoID == null) && (this.movimentoID == null || this.movimentoID.equals(other.movimentoID));
     }
 
     @Override
     public String toString() {
         return "model.Movimento[ movimentoID=" + movimentoID + " ]";
     }
-    
 }

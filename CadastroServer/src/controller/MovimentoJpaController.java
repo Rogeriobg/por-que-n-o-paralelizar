@@ -12,6 +12,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.Persistence;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import model.Movimento;
@@ -23,11 +24,17 @@ import model.Produto;
  * @author rbgor
  */
 public class MovimentoJpaController implements Serializable {
-
+   private EntityManagerFactory emf;
+    
     public MovimentoJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
-    private EntityManagerFactory emf = null;
+ 
+
+    public MovimentoJpaController() {
+        this.emf = Persistence.createEntityManagerFactory("CadastroServerPU");
+       // throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 
     public EntityManager getEntityManager() {
         return emf.createEntityManager();

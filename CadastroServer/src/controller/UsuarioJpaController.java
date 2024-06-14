@@ -12,6 +12,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.Persistence;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import model.Usuario;
@@ -22,10 +23,16 @@ import model.Usuario;
  */
 public class UsuarioJpaController implements Serializable {
 
+     private EntityManagerFactory emf;
     public UsuarioJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
-    private EntityManagerFactory emf = null;
+    
+
+    public UsuarioJpaController() {
+         this.emf = Persistence.createEntityManagerFactory("CadastroServerPU");
+       // throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 
     public EntityManager getEntityManager() {
         return emf.createEntityManager();

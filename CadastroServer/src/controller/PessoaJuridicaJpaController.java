@@ -12,6 +12,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.Persistence;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import model.Pessoa;
@@ -22,11 +23,11 @@ import model.PessoaJuridica;
  * @author rbgor
  */
 public class PessoaJuridicaJpaController implements Serializable {
-
+ private EntityManagerFactory emf;
     public PessoaJuridicaJpaController(EntityManagerFactory emf) {
-        this.emf = emf;
+        this.emf = Persistence.createEntityManagerFactory("CadastroServerPU");
     }
-    private EntityManagerFactory emf = null;
+   
 
     public EntityManager getEntityManager() {
         return emf.createEntityManager();

@@ -17,6 +17,7 @@ import java.util.Collection;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import model.PessoaFisica;
 import model.Movimento;
 import model.Pessoa;
@@ -26,11 +27,16 @@ import model.Pessoa;
  * @author rbgor
  */
 public class PessoaJpaController implements Serializable {
-
+ private EntityManagerFactory emf;
     public PessoaJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
-    private EntityManagerFactory emf = null;
+    
+
+    public PessoaJpaController() {
+        this.emf = Persistence.createEntityManagerFactory("CadastroServerPU");
+      //  throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 
     public EntityManager getEntityManager() {
         return emf.createEntityManager();

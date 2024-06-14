@@ -16,6 +16,7 @@ import java.util.Collection;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import model.Produto;
 
 /**
@@ -23,11 +24,17 @@ import model.Produto;
  * @author rbgor
  */
 public class ProdutoJpaController implements Serializable {
-
+ private EntityManagerFactory emf;
     public ProdutoJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
-    private EntityManagerFactory emf = null;
+   
+
+    public ProdutoJpaController() {
+        this.emf = Persistence.createEntityManagerFactory("CadastroServerPU");
+        
+        //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
